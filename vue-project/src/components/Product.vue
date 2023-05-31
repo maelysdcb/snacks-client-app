@@ -1,63 +1,33 @@
 <script setup>
-import { invokeArrayFns } from '@vue/shared';
-import axios from 'axios';
-import { ref, defineProps } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed } from 'vue';
+import { useProductStore } from '../stores/ProductStore';
 
 const props = defineProps({
-    product :{
+    product: {
         type: Object,
-        required:true
+        required: true
     }
 })
 
-const emit = defineEmits(['buttonClicked']);
-const handleButtonClicked = (infos) => {
-    const displayData = {id:infos.id}
-    emit('buttonClicked', displayData)
+const store = useProductStore();
+
+const addToCart = (quantity) => {
+    store.addProduct(props.product, quantity);
 }
 
-const count = ref(0);
-const increment = () => {
-    count.value++
+const iconClicked = ref(false);
+
+const changeIcon = () => {
+    iconClicked.value = !iconClicked.value;
 }
-const cart = ref([]);
-const router = useRouter();
-
-// goToCart function after client picked its products
-// const goToCart = () => {
-//     setTimeout(() => {
-//         router.push({ name: 'cart' })
-//     }, 1000)
-// }
-
-function addToCart(stockQuantity) {
-    if (stockQuantity <= 0) {
-        alert('This product is sold out !')
-    } else {
-        // Consume one product in database
-        axios
-            .get(`http://localhost:8000/api/products/consume?id=${props.product.id}`)
-            .then(response => {
-                cart.value = response.data
-                console.log(cart.value)
-                handleButtonClicked(cart.value)
-            })
-
-        if (count.value <= 4) {
-            increment();
-            // goToCart();
-            // cart.value = count.value;
-            // console.log(cart.value);
-        } else {
-            console.log('Vous ne pouvez pas acheter plus de 5 fois le même produit')
-        }
-    }
-}
+const iconSource = computed(() => {
+    console.log(iconClicked.value)
+    return iconClicked.value ? '../assets/svg/checkmark-circle.svg' : '../assets/svg/add-circle-outline.svg'
+})
 </script>
 
 <template>
-    <div class="grid">
+    <div class="grid-products">
         <div v-if="product.quantity <= 0">
             <div class="card unavailable">
                 <img class="card-header" src="../assets/svg/no-image.svg" :alt="product.name">
@@ -65,13 +35,11 @@ function addToCart(stockQuantity) {
                     <h3>{{ product.name }}</h3>
                     <div class="card-body-content">
                         <div class="card-body-content-infos">
-                            <span>Rupture de stock</span>
+                            <span>Out of stock</span>
                         </div>
                         <div class="card-body-content-action">
-                            <a href="#">
-                                <img class="ion-icon" src="../assets/svg/add-circle-outline.svg" alt="plus-icon"
-                                    @click="addToCart(product.quantity)">
-                            </a>
+                            <img class="ion-icon" src="../assets/svg/close-circle-outline.svg" alt="plus-icon"
+                                @click="addToCart(product.quantity)">
                         </div>
                     </div>
                 </div>
@@ -88,8 +56,8 @@ function addToCart(stockQuantity) {
                                 {{ product.price }}€</span>
                         </div>
                         <div class="card-body-content-action">
-                            <a href="#" @click="handleButtonClicked">
-                                <img class="ion-icon" src="../assets/svg/add-circle-outline.svg" alt="plus-icon"
+                            <a @click="changeIcon">
+                                <img class="ion-icon" :src="iconSource" alt="plus-icon"
                                     @click="addToCart(product.quantity)">
                             </a>
                         </div>
@@ -101,7 +69,7 @@ function addToCart(stockQuantity) {
 </template>
 
 <style scoped>
-.grid {
+.grid-products {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(1, 1fr);

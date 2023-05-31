@@ -38,7 +38,7 @@ span {
     width: 40px;
     height: 40px;
     border-radius: 5px;
-    top: 12%;
-    right: 9.5%;
+    top: 12.1%;
+    right: 12%;
 }
 </style>

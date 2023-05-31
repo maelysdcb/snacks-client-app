@@ -1,6 +1,9 @@
 <script setup>
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { ref,onMounted, onUnmounted } from 'vue';
+import { useProductStore } from '@/stores/ProductStore.js'
+
+  const store = useProductStore();
 
     const isActive = ref(false);
     const route = useRoute();
@@ -47,7 +50,6 @@ import { ref,onMounted, onUnmounted } from 'vue';
       </div>
     </header>
     <RouterView></RouterView>
-    <!-- <RouterView :component="CartView" /> -->
   </div>
   <div class="spacer">
     &nbsp;
@@ -61,6 +63,8 @@ import { ref,onMounted, onUnmounted } from 'vue';
       </svg>
     </RouterLink>
     <RouterLink to="/cart" class="link" :class="{'active': isActiveRoute('/cart')}">
+      <span v-if="store.cart.length !== 0" class="quantity">{{ store.productAdded.quantity }}</span>
+      <span v-else></span>
       <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
       <circle cx="176" cy="416" r="16" fill="none" stroke="#FAFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
       <circle cx="400" cy="416" r="16" fill="none" stroke="#FAFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
@@ -115,13 +119,27 @@ import { ref,onMounted, onUnmounted } from 'vue';
     background-color: var(--nav-card-color);
   }
 
+  .quantity {
+    position:absolute;
+    top:26%;
+    left: 51%;
+    width: 16px;
+    height: 16px;
+    border-radius: 1em;
+    background-color: var(--green-color);
+    text-align: center;
+    font-size: 14px;
+  }
+
   .spacer {
     height: 65px;
   }
 
   .link {
+    /* position:relative; */
     width: 30px;
     height: 30px;
+    color:var(--font-color);
     text-decoration: none;
   }
 
