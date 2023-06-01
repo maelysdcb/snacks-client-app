@@ -1,7 +1,11 @@
 <script setup>
 import CartItem from '../components/CartItem.vue';
 import { useProductStore } from '@/stores/ProductStore.js'
+import { useCartStore } from '../stores/CartStore';
+
 const store = useProductStore();
+const cart = useCartStore();
+
 </script>
 
 <template>
@@ -13,9 +17,9 @@ const store = useProductStore();
             </div>
             <div class="subtotal">
                 <h2>Subtotal</h2>
-                <p>#</p>
+                <p >{{ cart.calculTotal(store.cart) }}</p>
             </div>
-            <button>Pay</button>
+            <button @click="">Pay</button>
         </div>
         <div v-else class="empty-card">
             <img src="../assets/svg/empty-cart.svg" alt="empty-cart-illustration">

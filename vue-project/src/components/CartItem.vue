@@ -1,13 +1,21 @@
 <script setup>
 import { useProductStore } from '@/stores/ProductStore.js'
+import { useCartStore } from '@/stores/CartStore';
+
 const store = useProductStore();
+const cartStore = useCartStore();
+
 
 const props = defineProps({
     item :{
         type: Object,
         required:true
-    }
+    },
 })
+
+const handleRemoveProduct = (id) => {
+    cartStore.removeProduct(id, store.cart, store.count)
+}
 </script>
 
 <template>
@@ -20,7 +28,7 @@ const props = defineProps({
         </div>
         <div class="card-footer">
             <div class="card-actions">
-                <button class="actions"><img src="../assets/svg/trash-outline.svg" alt="trash-icon"></button>
+                <button class="actions" @click="handleRemoveProduct(item.id)"><img src="../assets/svg/trash-outline.svg" alt="trash-icon"></button>
                 <span class="quantity">#</span>
                 <button class="actions"><img src="../assets/svg/add-outline.svg" alt="add-quantity-icon"></button>
             </div>
@@ -61,23 +69,36 @@ const props = defineProps({
 }
 
 .quantity {
-    height:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:21px;
+    width: 30px;
     background-color: var(--font-color);
     color:var(--nav-card-color)
 }
 button {
     border:none;
-  
 }
 .card-actions > button:first-child {
     background-color: var(--font-color);
     border-radius:1em 0 0 1em;
-    width: 30px;
+    width: 35px;
 }
+
+
+.card-actions > button:first-child img {
+    width: 16px;
+}
+
+.card-actions > button:last-child img {
+    width: 16px;
+}
+
 .card-actions > button:last-child {
     background-color: var(--font-color);
     border-radius: 0 1em 1em 0;
-    width: 30px;
+    width: 35px;
 
 }
 
