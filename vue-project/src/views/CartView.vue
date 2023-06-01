@@ -11,15 +11,15 @@ const cart = useCartStore();
 <template>
     <main>
         <h1>My Cart</h1>
-        <div v-if="store.cart.length > 0">
+        <div v-if="cart.products.length > 0">
             <div class="grid-card">
-                <CartItem v-for="item in store.cart" :item="item"></CartItem>
+                <CartItem v-for="item in cart.products" :item="item"></CartItem>
             </div>
             <div class="subtotal">
                 <h2>Subtotal</h2>
-                <p >{{ cart.calculTotal(store.cart) }}</p>
+                <p>{{ cart.calculTotal() }}€</p>
             </div>
-            <button @click="">Pay</button>
+            <button>Pay</button>
         </div>
         <div v-else class="empty-card">
             <img src="../assets/svg/empty-cart.svg" alt="empty-cart-illustration">
@@ -40,11 +40,11 @@ main {
 .grid-card {
     display: grid;
     grid-template-columns: 1fr;
-    gap:2em;
+    gap: 2em;
 }
 
 .subtotal {
-    padding:2em 0;
+    padding: 2em 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,6 +65,6 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap:2em;
+    gap: 2em;
 }
 </style>

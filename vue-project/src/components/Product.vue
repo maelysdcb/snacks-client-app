@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useProductStore } from '../stores/ProductStore';
+import { useCartStore } from '../stores/CartStore';
 
 const props = defineProps({
     product: {
@@ -9,10 +10,11 @@ const props = defineProps({
     }
 })
 
+const cart = useCartStore();
 const store = useProductStore();
 
 const addToCart = (quantity) => {
-    store.addProduct(props.product, quantity);
+    cart.addProduct(props.product, quantity);
 }
 
 const iconClicked = ref(false);

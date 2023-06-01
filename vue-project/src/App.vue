@@ -1,9 +1,9 @@
 <script setup>
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useProductStore } from '@/stores/ProductStore.js'
+import { useCartStore } from './stores/CartStore';
 
-const store = useProductStore();
+const cart = useCartStore();
 
 const isActive = ref(false);
 const route = useRoute();
@@ -65,7 +65,7 @@ const isActiveRoute = (to) => {
       </svg>
     </RouterLink>
     <RouterLink to="/cart" class="link" :class="{ 'active': isActiveRoute('/cart') }">
-      <span v-if="store.cart.length !== 0" class="quantity">{{ store.count }}</span>
+      <span v-if="cart.length !== 0" class="quantity">{{ cart.count() }}</span>
       <span v-else></span>
       <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
         <circle cx="176" cy="416" r="16" fill="none" stroke="#FAFAFA" stroke-linecap="round" stroke-linejoin="round"
