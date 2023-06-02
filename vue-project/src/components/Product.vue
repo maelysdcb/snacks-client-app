@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useProductStore } from '../stores/ProductStore';
 import { useCartStore } from '../stores/CartStore';
 
 const props = defineProps({
@@ -11,7 +10,6 @@ const props = defineProps({
 })
 
 const cart = useCartStore();
-const store = useProductStore();
 
 const addToCart = (quantity) => {
     cart.addProduct(props.product, quantity);
@@ -29,7 +27,7 @@ const iconSource = computed(() => {
 </script>
 
 <template>
-    <div class="grid-products">
+    
         <div v-if="product.quantity <= 0">
             <div class="card unavailable">
                 <img class="card-header" src="../assets/svg/no-image.svg" :alt="product.name">
@@ -67,7 +65,6 @@ const iconSource = computed(() => {
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <style scoped>

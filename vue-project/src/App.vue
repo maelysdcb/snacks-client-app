@@ -65,7 +65,7 @@ const isActiveRoute = (to) => {
       </svg>
     </RouterLink>
     <RouterLink to="/cart" class="link" :class="{ 'active': isActiveRoute('/cart') }">
-      <span v-if="cart.length !== 0" class="quantity">{{ cart.count() }}</span>
+      <span v-if="cart.count() > 0" class="quantity">{{ cart.count() }}</span>
       <span v-else></span>
       <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
         <circle cx="176" cy="416" r="16" fill="none" stroke="#FAFAFA" stroke-linecap="round" stroke-linejoin="round"

@@ -4,7 +4,7 @@ import { ref } from "vue";
 export const useCartStore = defineStore("CartStore", () => {
   const products = ref([]);
 
-  const calculTotal = () =>
+  const subTotal = () =>
     products.value.reduce((acc, item) => acc + parseFloat(item.price), 0);
 
   const removeProduct = (itemId) => {
@@ -13,6 +13,8 @@ export const useCartStore = defineStore("CartStore", () => {
       products.value.splice(index, 1);
     }
   };
+
+  const count = () => products.value.length;
 
   // Add to cart
   const addProduct = (product, quantity) => {
@@ -34,8 +36,5 @@ export const useCartStore = defineStore("CartStore", () => {
     }
   };
 
-  const count = () => products.value.length;
-
-  return { products, removeProduct, calculTotal, addProduct, count };
-  
+  return { products, removeProduct, subTotal, addProduct, count };
 });

@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios';
 
-const login = () => {
-    axios.post("http://localhost:8000/api/auth")
-}
+// const login = () => {
+//     axios.post("http://localhost:8000/api/auth")
+// }
 </script>
 
 <template>

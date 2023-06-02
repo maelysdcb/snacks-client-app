@@ -1,16 +1,17 @@
-<script>
-import {ref} from 'vue';
+<script setup>
+import { useProductStore } from '@/stores/ProductStore.js'
 
-export default {
-    setup(){
-        
-    }
-};
+const store = useProductStore();
+
+const handleInput = () => {
+    store.filterProduct(store.researchProduct);
+}
+
 </script>
 
 <template>
- <div class="searchbar">
-        <input class="search" type="text" placeholder="Search" />
+    <div class="searchbar">
+        <input class="search" type="text" placeholder="Search" v-model="store.researchProduct" @input="handleInput" />
         <span class="search-icon">
             <img src="../assets/svg/search-outline.svg" alt="search-icon" />
         </span>
@@ -21,7 +22,7 @@ export default {
 input {
     position: relative;
     color: var(--font-color);
-    padding-left:1.5em;
+    padding-left: 1.5em;
     width: 100%;
     height: 50px;
     background-color: var(--searchbar-color);
@@ -38,7 +39,7 @@ span {
     width: 40px;
     height: 40px;
     border-radius: 5px;
-    top: 12.1%;
+    top: 11.4%;
     right: 12%;
 }
 </style>

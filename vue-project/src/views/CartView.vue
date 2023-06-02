@@ -1,23 +1,21 @@
 <script setup>
 import CartItem from '../components/CartItem.vue';
-import { useProductStore } from '@/stores/ProductStore.js'
 import { useCartStore } from '../stores/CartStore';
 
-const store = useProductStore();
 const cart = useCartStore();
 
 </script>
 
 <template>
     <main>
-        <h1>My Cart</h1>
+        <h1>My cart</h1>
         <div v-if="cart.products.length > 0">
             <div class="grid-card">
                 <CartItem v-for="item in cart.products" :item="item"></CartItem>
             </div>
             <div class="subtotal">
                 <h2>Subtotal</h2>
-                <p>{{ cart.calculTotal() }}€</p>
+                <p>{{ cart.subTotal() }}€</p>
             </div>
             <button>Pay</button>
         </div>
