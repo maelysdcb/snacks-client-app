@@ -29,10 +29,17 @@ const cart = useCartStore();
 <style scoped>
 main {
     margin: 2em 0;
+    gap: 5em;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 2em;
+}
+
+.test {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
 }
 
 .grid-card {

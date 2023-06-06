@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 
 export const useProductStore = defineStore("ProductStore", () => {
+
   // State
   const products = ref(null);
   const filteredProduct = ref([]);

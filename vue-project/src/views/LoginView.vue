@@ -1,22 +1,44 @@
 <script setup>
 import axios from 'axios';
+// import { ref } from 'vue';
 
-// const login = () => {
-//     axios.post("http://localhost:8000/api/auth")
-// }
+const formData = {
+    email: '',
+    password: ''
+}
+
+const login = async () => {
+
+    try {
+        const response = await axios.post("http://localhost:8000/api/auth", formData, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        localStorage.setItem("user", JSON.stringify(response.data));
+        if (response.data.status === true) {
+            window.location.href = "/";
+        } else {
+            console.log("Accès refusé");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
 </script>
 
 <template>
     <main>
         <h1>Welcome</h1>
-        <form action="/auth/api" method="POST">
+        <form action="/api/auth" method="POST" @submit.prevent="handleSubmit">
             <div class="form-login">
                 <div class="field">
                     <div class="field-item">
                         <img class="ion-icon" src="../assets/svg/mail-outline.svg" alt="email-icon">
                         <label for="email">Email :</label>
                     </div>
-                    <input type="text" name="email" placeholder="example@gmail.com" required>
+                    <input type="text" name="email" placeholder="example@gmail.com" v-model="formData.email"
+                        autocomplete="on" required>
                 </div>
                 <div class="field">
                     <div class="field-item">
@@ -24,11 +46,12 @@ import axios from 'axios';
                         <label for="password">Password :</label>
                     </div>
                     <div class="field forgot-item">
-                        <input type="password" name="password" placeholder="*************" required>
+                        <input type="password" name="password" placeholder="*************" v-model="formData.password"
+                            required>
                         <a href="">Forgot passord ?</a>
                     </div>
                 </div>
-                <button>LOGIN</button>
+                <button @click="login()">Login</button>
                 <span>Need an account ? <a href="#">Sign up now !</a></span>
             </div>
         </form>
@@ -36,20 +59,22 @@ import axios from 'axios';
 </template>
 
 <style scoped>
-
 main {
-    margin: 5em 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5em;
 }
+
 .form-login {
     display: flex;
     flex-direction: column;
-    padding-top: 2em;
+    margin-top: 2em;
+    gap: 1em;
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    margin: 1em 0;
 }
 
 input {
@@ -72,14 +97,15 @@ input {
 .forgot-item {
     display: flex;
     flex-direction: column;
-    gap:0.5em;
+    gap: 1em;
 }
 
-.forgot-item > a {
+.forgot-item>a {
     align-self: flex-end;
 }
 
 button {
+    text-transform: uppercase;
     cursor: pointer;
     color: var(--font-color);
     font-weight: 600;

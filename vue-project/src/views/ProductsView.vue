@@ -9,7 +9,7 @@ const store = useProductStore();
 <template>
     <main>
         <SearchBar></SearchBar>
-        <div v-if="store.filteredProduct.length === 0" class="">
+        <div v-if="store.filteredProduct.length === 0" class="product-missing">
             <span>We don't have any product that starts by : "{{ store.researchProduct }}"</span>
             <img src="../assets/svg/product-unavailable.svg" alt="">
         </div>
@@ -33,6 +33,17 @@ main {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(1, 1fr);
     gap: 3em;
+}
+
+.product-missing {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap:5em;
+}
+
+.product-missing > img {
+width: 100%;
 }
 
 </style>
